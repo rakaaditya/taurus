@@ -1,0 +1,27 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            {% for post in posts %}
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><a href="{{ url(post.url) }}">{{ post.title }}</a></h2>
+                    <p class="blog-post-meta">{{ post.published_at }} by <a href="{{ url('/author/'~post.author.username) }}">{{ post.author.name }}</a></p>
+                    <p>{{ post.summary }}</p>
+                </div>
+            {% endfor %}
+            {% if pagination %}
+                <ul class="pagination">
+                    {% for paginate in pagination %}
+                        {% if paginate.active %}
+                            <li><span>{{ paginate.value }}</span></li>
+                        {% else %}
+                            <li><a href="{{ paginate.link }}">{{ paginate.value | raw }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% include 'sidebar.twig' %}
+    </div>
+{% endblock %}

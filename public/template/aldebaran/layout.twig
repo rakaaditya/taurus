@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>{{ blog_title }} - {{ title | default(blog_description) }}</title>
+    <link href="{{ assets('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ assets('css/aldebaran.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="blog-masthead">
+        <div class="container">
+            <nav class="blog-nav">
+                {% for menu in menus %}
+                    <a class="blog-nav-item" href="{{ url()~'/'~trim_slash(menu.url) }}">{{ menu.name }}</a>
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="blog-header">
+            <h1 class="blog-title">{{ blog_title }}</h1>
+            <p class="lead blog-description">{{ blog_description }}</p>
+            <hr/>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="blog-footer">
+        <p>Powered by <a href="//www.taurus.id" target="_blank">taurus</a>, a simple blog platform.</p>
+    </footer>
+    <script src="{{ assets('js/bootstrap.min.js') }}"></script>
+</body>
+</html>

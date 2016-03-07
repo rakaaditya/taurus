@@ -1,0 +1,18 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <div class="blog-post">
+                {% if post %}
+                    <h2 class="blog-post-title">{{ post.title | raw }}</h2>
+                    <p class="blog-post-meta">{{ post.published_at }} by <a href="{{ url('/author/'~post.author.username) }}">{{ post.author.name }}</a></p>
+                    <p>{{ post.content | raw }}</p>
+                {% else %}
+                    <p>Post not found!</p>
+                {% endif %}
+            </div>
+        </div>
+        {% include 'sidebar.twig' %}
+    </div>
+{% endblock %}
