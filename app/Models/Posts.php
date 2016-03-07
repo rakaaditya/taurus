@@ -25,7 +25,10 @@ class Posts extends Resources\ActiveRecord
 
     public function countPost()
     {
-        return $this->db->getVar("SELECT COUNT(id) FROM posts");
+        return $this->db->getVar("SELECT COUNT(id) FROM posts
+            WHERE posts.deleted_at IS NULL
+            AND posts.published_at <= NOW()
+            AND posts.is_page = 0");
     }
 
     public function getPostByMonth($year, $month, $limit, $offset)
@@ -52,7 +55,8 @@ class Posts extends Resources\ActiveRecord
             WHERE YEAR(published_at) = {$year} 
             AND MONTH(published_at) = {$month} 
             AND deleted_at IS NULL
-            AND published_at <= NOW()");
+            AND published_at <= NOW()
+            AND is_page = 0");
     }
 
     public function getPostByUsername($username, $limit, $offset)
@@ -125,7 +129,7 @@ class Posts extends Resources\ActiveRecord
             AND posts.deleted_at IS NULL
             AND posts.published_at <= NOW()
             AND posts.is_page = 1");
-        
+
         return $this->createPostDetail($post);
     }
 
