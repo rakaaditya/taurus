@@ -91,6 +91,11 @@ class BaseController extends Resources\Controller
     {
         return $this->posts->getPostDetail($year, $month, $day, $slug);
     }
+
+    protected function pageDetail($slug)
+    {
+        return $this->posts->getPageDetail($slug);
+    }
     
     protected function postMonth($year, $month, $limit, $offset)
     {

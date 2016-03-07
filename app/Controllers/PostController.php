@@ -49,4 +49,17 @@ class PostController extends BaseController
             'title'         => 'Posts by '.$author->name
         ]);
     }
+
+    public function page($slug)
+    {
+        $post = $this->pageDetail($slug);
+        
+        if(!$post)
+            throw new \Resources\HttpException('Page not found!');
+
+        echo $this->twig->render('page.twig', [
+            'post'  => $post,
+            'title' => $post['title'],
+        ]);
+    }
 }

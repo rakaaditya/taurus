@@ -113,29 +113,20 @@ class Posts extends Resources\ActiveRecord
             AND posts.deleted_at IS NULL
             AND posts.published_at <= NOW()
             AND posts.is_page = 0");
+
+        return $this->createPostDetail($post);
+    }
+
+    public function getPageDetail($slug)
+    {
+        $post = $this->db->row("SELECT * FROM posts 
+            LEFT JOIN users ON user_id = posts.user_id 
+            WHERE posts.slug = '{$slug}' 
+            AND posts.deleted_at IS NULL
+            AND posts.published_at <= NOW()
+            AND posts.is_page = 1");
         
-        $postData = [];
-
-        if($post)
-            $postData = [
-                'id'            => $post->id,
-                'title'         => $post->title,
-                'summary'       => $post->summary,
-                'content'       => $post->content,
-                'created_at'    => $post->created_at,
-                'published_at'  => date('l, d M Y H:i', strtotime($post->published_at)),
-                'cover_image'   => $post->cover_image,
-                'slug'          => $post->slug,
-                'url'           => $this->postUrl($post->published_at, $post->slug),
-                'author'          => [
-                    'id'        => $post->user_id,
-                    'name'      => $post->name,
-                    'username'  => $post->username,
-                    'avatar'    => $post->avatar
-                ]
-            ];
-
-        return $postData;
+        return $this->createPostDetail($post);
     }
 
     private function postUrl($date, $slug)
@@ -167,6 +158,32 @@ class Posts extends Resources\ActiveRecord
                     ]
                 ];
             }
+
+        return $postData;
+    }
+
+    private function createPostDetail($post)
+    {
+        $postData = [];
+
+        if($post)
+            $postData = [
+                'id'            => $post->id,
+                'title'         => $post->title,
+                'summary'       => $post->summary,
+                'content'       => $post->content,
+                'created_at'    => $post->created_at,
+                'published_at'  => date('l, d M Y H:i', strtotime($post->published_at)),
+                'cover_image'   => $post->cover_image,
+                'slug'          => $post->slug,
+                'url'           => $this->postUrl($post->published_at, $post->slug),
+                'author'          => [
+                    'id'        => $post->user_id,
+                    'name'      => $post->name,
+                    'username'  => $post->username,
+                    'avatar'    => $post->avatar
+                ]
+            ];
 
         return $postData;
     }

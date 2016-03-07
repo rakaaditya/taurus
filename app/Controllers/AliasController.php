@@ -12,6 +12,7 @@ class AliasController
         $route->get('{year}/{month}/{day}/{slug}', 'PostController@detail');
         $route->get('archives/{year}/{month}', 'PostController@archive');
         $route->get('author/{username}', 'PostController@author');
+        $route->get('{slug}', 'PostController@page');
 
         // Let's run through the route!!
         $route->run();
